@@ -36,10 +36,15 @@ const getWebMicrotask = () => {
   return setTimeout;
 }
 
+const getNodeMicrotask = () => {
+  if(process && process.nextTick) return process.nextTick;
+  return setTimeout;
+}
+
 if(TARGET === 'web') {
   module.exports = getWebMicrotask();
 } else if (TARGET === 'node') {
-  module.exports =  process.nextTick;
+  module.exports = getNodeMicrotask();
 } else {
   module.exports = setTimeout;
 }
